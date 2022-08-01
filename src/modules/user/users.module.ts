@@ -3,14 +3,14 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import * as usersControllers from './controller';
 import { User } from './entities';
 import { UsersService } from './services';
-import { ConfirmationToken, RefreshToken } from '../auth/entities';
+import { ConfirmationToken } from '../auth/entities';
 
 @Module({
   controllers: Object.values(usersControllers),
   exports: [UsersService],
   imports: [
     MikroOrmModule.forFeature({
-      entities: [User, ConfirmationToken, RefreshToken],
+      entities: [User, ConfirmationToken],
     }),
   ],
   providers: [UsersService],

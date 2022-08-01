@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import * as authController from './controller';
-import { AuthService } from './service';
+import { AuthService, GeneratorService } from './service';
 import * as moduleEntities from './entities';
 import { UsersService } from '../user/services';
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -10,22 +10,23 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../user/users.module';
 import { jwtConstants } from './constant/constant';
 import { User } from './../user/entities';
+// import { loadStrategy } from './strategies';
 
 @Module({
   controllers: Object.values(authController),
-  exports: [AuthService],
+  exports: [AuthService, JwtStrategy, PassportModule],
   imports: [
-    JwtModule,
+    // JwtModule,
     MikroOrmModule.forFeature({
       entities: [...Object.values(moduleEntities), User],
     }),
     forwardRef(() => UsersModule),
-    PassportModule,
+    PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      secretOrPrivateKey: jwtConstants.secret,
+      signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [AuthService, UsersService, JwtStrategy],
+  providers: [AuthService, UsersService, JwtStrategy, PassportModule, GeneratorService],
 })
-export class AuthModule {}
+export class AuthModule { }

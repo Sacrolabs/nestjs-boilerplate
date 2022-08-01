@@ -1,4 +1,5 @@
 import {
+  DateTimeType,
   Entity,
   OneToOne,
   PrimaryKey,
@@ -16,9 +17,12 @@ export class ConfirmationToken {
   @OneToOne()
   user: User;
 
-  @Property({ hidden: true })
+  @Property({})
   @Unique()
   token: string;
+
+  @Property({ type: DateTimeType })
+  dateTime = new Date()
 
   constructor(user: User, token: string) {
     this.user = user;

@@ -76,11 +76,14 @@ Nest is [MIT licensed](LICENSE).
 ## This boilerplate is based on nestjs and mikro-orm database - postgresql
 Installation process npm install 
 In case of error try with npm install --legacy-peer-deps
+after Cloning the repo and npm install run npx mikro-orm migration:create and migration:up
+New migrations folder will be created with file contains table data.
 
 ## How to use 
 create folder in modules
 every new module must have user.controller.ts, user.service.ts and  user.module.ts,
 every new module will be imported in the app.module.ts
+
 
 ## User module contains service related userEntity userDto.
 one user table is created with name email and password.
@@ -88,7 +91,7 @@ password is encrypted.
 
 ## then auth module contains service related to auth 
 user signup and signin 
-tables related to auth confirmation token and refresh token.
+tables related to auth confirmationtoken.
 
 ## there is error file 
 for defining custom Service error text.

@@ -9,6 +9,7 @@ async function bootstrap() {
     .setDescription('boilerplate API Application')
     .setVersion('v1')
     .addTag('boilerplate')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

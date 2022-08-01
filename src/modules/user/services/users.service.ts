@@ -36,6 +36,23 @@ export class UsersService {
     return user;
   }
 
+  public async getUserByEmailAndPassword(
+    em: EntityManager,
+    email: string,
+    password: string,    
+  ): Promise<User> {
+    const user = await em.findOne(
+      User,
+      {
+        email,
+      },
+    );
+    if (!user) {
+      throw new ServiceError(216, "user does not exist");
+    }
+    return user;
+  }
+
   public async checkIfUnique(
     em: EntityManager,
     key: keyof User,
@@ -44,8 +61,11 @@ export class UsersService {
     return (await em.count(User, { [key]: value })) === 0;
   }
 
-  async findOne(em: EntityManager, username: string): Promise<any> {
-    const user = await em.find(User, { username: username });
+  public async findOne(em: EntityManager, username: string): Promise<any> {
+    const user = await this._em
+      .createQueryBuilder(User,"u")
+      .where({username:username})
+      .execute()
     return user;
   }
 
